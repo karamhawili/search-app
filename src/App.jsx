@@ -1,122 +1,80 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { useState } from "react";
+import "./App.css";
 
-function App() {
-  const [count, setCount] = useState(0)
+const articles = [
+  {
+    id: 1,
+    title: "Understanding React Hooks",
+    date: "2024-06-01",
+    content:
+      "React Hooks are functions that let you use state and other React features without writing a class. They were introduced in React 16.8 and have become a fundamental part of modern React development. Hooks allow you to reuse stateful logic across components, making your code more modular and easier to maintain.",
+  },
+  {
+    id: 2,
+    title: "A Guide to JavaScript Promises",
+    date: "2024-06-02",
+    content:
+      "JavaScript Promises are a way to handle asynchronous operations. They represent a value that may be available now, in the future, or never. Promises have three states: pending, fulfilled, and rejected. They provide a cleaner and more manageable way to work with asynchronous code compared to traditional callback functions.",
+  },
+  {
+    id: 3,
+    title: "CSS Grid Layout: A Comprehensive Guide",
+    date: "2024-06-03",
+    content:
+      "CSS Grid Layout is a powerful layout system in CSS that allows you to create complex and responsive web designs easily. It provides a two-dimensional grid-based layout system, enabling you to design web pages without having to use floats or positioning. With CSS Grid, you can define rows and columns, and place items into the grid with precision.",
+  },
+];
 
-  return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+function highlightText(text, query) {
+  if (!query) return text;
 
-      <div className="ticks"></div>
+  const regex = new RegExp(`(${query})`, "gi");
+  const parts = text.split(regex);
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+  return parts.map((part, index) =>
+    regex.test(part) ? (
+      <mark key={index} className="highlight">
+        {part}
+      </mark>
+    ) : (
+      part
+    ),
+  );
 }
 
-export default App
+function App() {
+  const [query, setQuery] = useState("");
+
+  const filteredArticles = articles.filter(
+    (article) =>
+      article.title.toLowerCase().includes(query.toLowerCase()) ||
+      article.content.toLowerCase().includes(query.toLowerCase()),
+  );
+
+  return (
+    <div className="main">
+      <h1>Search</h1>
+      <input
+        type="text"
+        placeholder="Search articles..."
+        className="search-input"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+      />
+      <div className="articles">
+        {filteredArticles.length === 0 && <p>No articles found.</p>}
+        {filteredArticles.map((article) => (
+          <div key={article.id} className="article">
+            <h2 className="title">{highlightText(article.title, query)}</h2>
+            <p className="date">{article.date}</p>
+            <p className="description">
+              {highlightText(article.content, query)}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default App;
