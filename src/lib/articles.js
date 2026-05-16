@@ -1,4 +1,4 @@
-export default articles = [
+const articles = [
   {
     id: 1,
     title: "Understanding React Hooks",
@@ -21,3 +21,5 @@ export default articles = [
       "CSS Grid Layout is a powerful layout system in CSS that allows you to create complex and responsive web designs easily. It provides a two-dimensional grid-based layout system, enabling you to design web pages without having to use floats or positioning. With CSS Grid, you can define rows and columns, and place items into the grid with precision.",
   },
 ];
+
+export default articles;

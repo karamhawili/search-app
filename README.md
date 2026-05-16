@@ -21,3 +21,7 @@ npm install
 ```bash
 npm run dev
 ```
+
+## Notes
+
+- Built in JS to match the Vite template's default setup.

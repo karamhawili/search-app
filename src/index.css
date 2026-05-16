@@ -3,6 +3,8 @@
   --surface: #fff;
   --border: #e6e4e0;
   --border-hover: #d4d2ce;
+  --border-focus: #c1bdb8;
+  --font: "Open Sans", sans-serif;
 }
 
 *,
@@ -15,14 +17,14 @@
 
 body {
   background: var(--bg);
+  font-family: var(--font);
 }
 
 #root {
-  width: 1000px;
+  width: 720px;
   max-width: 100%;
   margin: 0 auto;
   min-height: 100svh;
   display: flex;
   flex-direction: column;
-  padding: 20px;
 }

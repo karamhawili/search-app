@@ -14,20 +14,32 @@ function App() {
 
   return (
     <div className="main">
-      <h1>Search</h1>
-      <input
-        type="text"
-        placeholder="Search articles..."
-        className="search-input"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-      />
+      <h1>Article Search</h1>
+      <div className="input-container">
+        <input
+          type="text"
+          placeholder="Search articles..."
+          className="search-input"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+        />
+        <p className="results-count">
+          {filteredArticles.length}{" "}
+          {filteredArticles.length === 1 ? "result" : "results"}
+        </p>
+      </div>
       <div className="articles">
         {filteredArticles.length === 0 && <p>No articles found.</p>}
         {filteredArticles.map((article) => (
           <div key={article.id} className="article">
             <h2 className="title">{highlightText(article.title, query)}</h2>
-            <p className="date">{article.date}</p>
+            <p className="date">
+              {new Date(article.date).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </p>
             <p className="description">
               {highlightText(article.content, query)}
             </p>
